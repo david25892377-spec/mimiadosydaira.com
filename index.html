@@ -1,1 +1,180 @@
-si le siguen pa la otra sera un ataque de bots
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mimiadosydaira.com 💀</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#titulo {
+    position: fixed;
+    top: 15px;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    font-size: clamp(20px, 5vw, 42px);
+    color: #00ffcc;
+    text-shadow: 3px 3px magenta;
+    pointer-events: none;
+}
+
+#mensaje {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: clamp(16px, 3vw, 25px);
+    z-index: 100;
+    pointer-events: none;
+    text-shadow: 2px 2px black;
+}
+
+.volador {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px magenta);
+    will-change: transform;
+}
+
+#ayuda {
+    position: fixed;
+    top: 75px;
+    width: 100%;
+    text-align: center;
+    color: yellow;
+    font-size: 13px;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="titulo">BIENVENIDO A LA PÁGINA 💀</h1>
+<div id="ayuda">No hay escapatoria...</div>
+<div id="mensaje">¿QUÉ HACES AQUÍ? JAJAJA</div>
+
+<script>
+const imagenes = [
+    "images/foto1.png",
+    "images/foto2.png",
+    "images/foto3.png",
+    "images/foto4.png"
+];
+
+const frases = [
+    "¿QUÉ HACES AQUÍ? 💀",
+    "ERROR 404: CEREBRO NO ENCONTRADO",
+    "TU PC AHORA ES NUESTRA",
+    "SIGUE MIRANDO, NO PASARÁ NADA...",
+    "JAJAJAJAJAJA",
+    "EL DVD NUNCA SE DETIENE",
+    "FELICIDADES, PERDISTE TU TIEMPO",
+    "MIMIADOS Y DAIRA DOMINAN"
+];
+
+const colores = [
+    "#ff00ff", "#00ffff", "#ff3333",
+    "#39ff14", "#ffff00", "#ff8800"
+];
+
+const objetos = [];
+
+imagenes.forEach((ruta, i) => {
+    const img = document.createElement("img");
+    img.src = ruta;
+    img.alt = "Imagen voladora " + (i + 1);
+    img.className = "volador";
+
+    // Tamaños y velocidades diferentes
+    const tamano = 75 + Math.random() * 85;
+    img.style.width = tamano + "px";
+    img.style.height = tamano + "px";
+
+    document.body.appendChild(img);
+
+    objetos.push({
+        img,
+        x: Math.random() * Math.max(1, innerWidth - tamano),
+        y: Math.random() * Math.max(1, innerHeight - tamano),
+        dx: (Math.random() * 4 + 2) *
+            (Math.random() < 0.5 ? -1 : 1),
+        dy: (Math.random() * 4 + 2) *
+            (Math.random() < 0.5 ? -1 : 1),
+        tamano
+    });
+});
+
+function animar() {
+    const ancho = innerWidth;
+    const alto = innerHeight;
+
+    objetos.forEach(o => {
+        o.x += o.dx;
+        o.y += o.dy;
+
+        if (o.x <= 0 || o.x + o.tamano >= ancho) {
+            o.dx *= -1;
+            o.x = Math.max(0, Math.min(
+                o.x, ancho - o.tamano
+            ));
+            o.img.style.filter =
+                "drop-shadow(0 0 12px " +
+                colores[Math.floor(Math.random() *
+                colores.length)] + ")";
+        }
+
+        if (o.y <= 0 || o.y + o.tamano >= alto) {
+            o.dy *= -1;
+            o.y = Math.max(0, Math.min(
+                o.y, alto - o.tamano
+            ));
+        }
+
+        o.img.style.transform =
+            `translate(${o.x}px, ${o.y}px)`;
+    });
+
+    requestAnimationFrame(animar);
+}
+
+animar();
+
+setInterval(() => {
+    document.body.style.background =
+        colores[Math.floor(Math.random() * colores.length)];
+
+    document.getElementById("mensaje").textContent =
+        frases[Math.floor(Math.random() * frases.length)];
+}, 2500);
+
+window.addEventListener("resize", () => {
+    objetos.forEach(o => {
+        o.x = Math.min(o.x, innerWidth - o.tamano);
+        o.y = Math.min(o.y, innerHeight - o.tamano);
+    });
+});
+</script>
+
+</body>
+</html>
+
